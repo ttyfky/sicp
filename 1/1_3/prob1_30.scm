@@ -1,0 +1,18 @@
+(define (sum2 term a next b)
+  (define (iter a result)
+  (if (> a b)
+      result
+      (iter (next a) (+ result (term a)))))
+  (iter a 0))
+
+(define (simpson f a b n)
+  (define h (/ (- b a) n))
+  (define (y k) (f (+ a (* k h))))
+  (define (inc n) (+ n 2))
+  (* (/ h 3.0) 
+     (+  (y 0)
+	 (* 4 (sum2 y 1 inc (- n 1)))
+	 (* 2 (sum2 y 2 inc (- n 1)))
+	 (y n))))
+(display (simpson cube 0 1 100))
+(display (simpson cube 0 1 1000))

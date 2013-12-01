@@ -1,0 +1,18 @@
+(define (repeated f n)
+  (define (compose f g)
+    (lambda (x) (f (g x))))
+  (if (> n 0)
+      (compose f (repeated f (- n 1)))
+      identity))
+(define (smooth f)
+  (let ((dx 0.0001))
+    (lambda (x) (/ 
+		 (+ (f (- x dx))
+		    (f x)
+		    (f (+ x dx))) 
+		 3))))
+(define (n-fold-smooth f n)
+  (repeated (smooth f) n))
+(define (square i) (* i i))
+
+((n-fold-smooth square 2)5)
